@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  frontend:
+    container_name: frontend
+    restart: always
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - '3000:80'
+    links:
+      - backend
+    # networks:
+    #   - megahack
+
+  backend:
+    container_name: backend
+    restart: always
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - '8181:8080'
+    # networks:
+    #   - megahack
+
+# networks:
+#   megahack:
+#     driver: bridge
+
+networks:  
+  default: 
+    name: container-network 

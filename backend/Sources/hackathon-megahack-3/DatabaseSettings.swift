@@ -10,7 +10,7 @@ import PerfectCRUD
 import PerfectMySQL
 
 #if os(Linux)
-let host = "docker.for.internal"
+let host = "host.docker.internal"
 #else
 let host = "localhost"
 #endif

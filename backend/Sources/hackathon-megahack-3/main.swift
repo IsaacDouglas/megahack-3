@@ -8,7 +8,7 @@ import PerfectSession
 
 // MARK: - Init Server
 let server = HTTPServer()
-server.serverPort = 8181
+server.serverPort = 8080
 
 SessionConfig.CORS.enabled = true
 SessionConfig.CORS.maxAge = 86400

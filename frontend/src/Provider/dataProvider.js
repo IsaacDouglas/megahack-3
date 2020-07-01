@@ -2,7 +2,7 @@ import { fetchUtils } from 'react-admin';
 import { stringify } from 'query-string';
 import decodeJwt from 'jwt-decode';
 
-const apiUrl = 'http://localhost:8181';
+const apiUrl = 'http://0.0.0.0:8181';
 
 const httpClient = (url, options = {}) => {
     options.user = {

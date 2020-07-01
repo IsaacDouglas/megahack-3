@@ -19,7 +19,7 @@ RUN cp /usr/src/hackathon-megahack-3/.build/debug/hackathon-megahack-3 /usr/loca
 RUN rm -rf /usr/src/hackathon-megahack-3
 
 # Bind container ports to the host
-EXPOSE 8181
+EXPOSE 8080
 
 # Run binary file
 RUN cd /usr/local/bin
