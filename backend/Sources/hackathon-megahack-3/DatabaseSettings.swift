@@ -10,7 +10,7 @@ import PerfectCRUD
 import PerfectMySQL
 
 #if os(Linux)
-let host = "host.docker.internal"
+let host = "localhost"
 #else
 let host = "localhost"
 #endif
@@ -22,6 +22,23 @@ typealias DBConfiguration = MySQLDatabaseConfiguration
 
 class DatabaseSettings {
     static func getDB(reset: Bool) throws -> Database<DBConfiguration> {
+        if reset {
+            let db = Database(configuration: try DBConfiguration(database: DBName,
+                                                                 host: host,
+                                                                 username: user,
+                                                                 password: password))
+            try db.sql("DROP DATABASE \(DBName)")
+            try db.sql("CREATE DATABASE \(DBName) DEFAULT CHARACTER SET utf8mb4")
+        }
+        return Database(configuration: try DBConfiguration(database: DBName,
+                                                           host: host,
+                                                           username: user,
+                                                           password: password))
+    }
+}
+
+class DatabaseSettingsTeste {
+    static func getDB(reset: Bool, host: String) throws -> Database<DBConfiguration> {
         if reset {
             let db = Database(configuration: try DBConfiguration(database: DBName,
                                                                  host: host,

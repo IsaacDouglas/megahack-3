@@ -57,6 +57,19 @@ routes.add(method: .options, uri: "/authenticate", handler: { request, response 
     response.completed()
 })
 
+routes.add(method: .get, uri: "/teste", handler: { request, response in
+    do {
+        guard let host = request.param(name: "host") else {
+            response.completed(status: .internalServerError)
+            return
+        }
+        let _ = try DatabaseSettingsTeste.getDB(reset: true, host: host)
+    } catch {
+        Log("\(error)")
+    }
+    response.completed()
+})
+
 routes.add(method: .post, uri: "/authenticate", handler: { request, response in
     guard let authenticate = request.getBodyJSON(Authenticate.self) else {
         response.completed(status: .internalServerError)
