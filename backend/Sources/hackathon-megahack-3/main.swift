@@ -238,7 +238,7 @@ routes.add(method: .post, uri: "/authenticate", handler: { request, response in
         let database = try DatabaseSettings.getDB(reset: false)
         guard
             let userAuth = try User.select(database: database, email: authenticate.username),
-            userAuth.password == authenticate.password.sha256
+            userAuth.password == authenticate.password
             else {
                 response.completed(status: .unauthorized)
                 return

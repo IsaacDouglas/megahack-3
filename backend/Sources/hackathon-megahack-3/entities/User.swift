@@ -17,6 +17,7 @@ struct User: Codable {
     var password: String
     var admin: Bool
     var points: Int
+    var image: String?
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -27,6 +28,7 @@ struct User: Codable {
         self.password = try values.decode(String.self, forKey: .password)
         self.admin = try values.decode(Bool.self, forKey: .admin)
         self.points = (try? values.decode(Int.self, forKey: .points)) ?? 0
+        self.image = try? values.decode(String.self, forKey: .image)
     }
 }
 
@@ -41,7 +43,8 @@ extension User: ControllerSwiftProtocol {
             cpf VARCHAR(20) NOT NULL UNIQUE,
             password CHAR(64) NOT NULL,
             admin BOOLEAN NOT NULL CHECK (admin IN (0,1)),
-            points INTEGER NOT NULL
+            points INTEGER NOT NULL,
+            image TEXT
             )
             """)
     }

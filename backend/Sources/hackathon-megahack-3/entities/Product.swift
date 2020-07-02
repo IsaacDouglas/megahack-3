@@ -15,6 +15,8 @@ struct Product: Codable {
     var barcode: String
     var name: String
     var description: String
+    var abv: String
+    var family: String
     var price: String
     var points: Int
     var ingredients_details: String?
@@ -29,6 +31,8 @@ struct Product: Codable {
         self.name = try values.decode(String.self, forKey: .name)
         self.barcode = try values.decode(String.self, forKey: .barcode)
         self.description = try values.decode(String.self, forKey: .description)
+        self.abv = try values.decode(String.self, forKey: .abv)
+        self.family = try values.decode(String.self, forKey: .family)
         self.price = try values.decode(String.self, forKey: .price)
         self.points = try values.decode(Int.self, forKey: .points)
         self.ingredients_details = try? values.decode(String.self, forKey: .ingredients_details)
@@ -48,6 +52,8 @@ extension Product: ControllerSwiftProtocol {
             barcode TEXT NOT NULL,
             name TEXT NOT NULL,
             description TEXT NOT NULL,
+            abv TEXT NOT NULL,
+            family TEXT NOT NULL,
             price TEXT NOT NULL,
             points INTEGER NOT NULL,
             ingredients_details TEXT,
@@ -59,7 +65,7 @@ extension Product: ControllerSwiftProtocol {
     }
     
     static func select<T: DatabaseConfigurationProtocol>(database: Database<T>, barcodes: [String]) throws -> [Product] {
-        let table = database.table(Self.self)
+        let table = database.table(Product.self)
         return try table.where(\Product.barcode ~ barcodes).select().map({ $0 })
     }
 }
