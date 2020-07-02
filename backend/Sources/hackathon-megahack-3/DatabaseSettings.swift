@@ -11,13 +11,14 @@ import PerfectMySQL
 
 #if os(Linux)
 let host = "35.247.229.61"
+let password = "xyNcim2ahJ1xH8c3"
 #else
 let host = "localhost"
+let password = "1234"
 #endif
 
 let DBName = "megahack3"
 let user = "root"
-let password = "xyNcim2ahJ1xH8c3"
 typealias DBConfiguration = MySQLDatabaseConfiguration
 
 class DatabaseSettings {
