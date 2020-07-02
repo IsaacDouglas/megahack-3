@@ -1,6 +1,6 @@
 import React from 'react';
 import { useMediaQuery } from '@material-ui/core';
-import { List, SimpleList, Datagrid, TextField, EditButton, Edit, SimpleForm, TextInput, Create, EmailField, BooleanField, BooleanInput, PasswordInput } from 'react-admin';
+import { List, SimpleList, Datagrid, TextField, EditButton, Edit, SimpleForm, TextInput, Create, EmailField, BooleanField, BooleanInput, PasswordInput, UrlField } from 'react-admin';
 import { required, email } from 'react-admin';
 
 const validateEmail = [required(), email()];
@@ -26,6 +26,7 @@ export const UserList = ({permissions, ...props}) => {
                     <EmailField source="email" label="Email"/>
                     <BooleanField source="admin" label="Admin"/>
                     <TextField source="points" label="Pontos"/>
+                    <UrlField source="image" label="Imagem"/>
                     <EditButton/>
                 </Datagrid>
             )}
@@ -43,6 +44,7 @@ export const UserEdit = props => (
             <TextInput source="name" label="Nome" validate={required()}/>
             <TextInput source="cpf" label="CPF" validate={required()}/>
             <TextInput source="email" label="Email" validate={validateEmail}/>
+            <TextInput source="image" label="Imagem"/>
             <PasswordInput source="password" validate={required()}/>
             <BooleanInput source="admin" label="Admin" validate={required()}/>
         </SimpleForm>
@@ -55,6 +57,7 @@ export const UserCreate = props => (
             <TextInput source="name" label="Nome" validate={required()}/>
             <TextInput source="cpf" label="CPF" validate={required()}/>
             <TextInput source="email" label="Email" validate={validateEmail}/>
+            <TextInput source="image" label="Imagem"/>
             <PasswordInput source="password" validate={required()}/>
             <BooleanInput source="admin" label="Admin" validate={required()}/>
         </SimpleForm>
