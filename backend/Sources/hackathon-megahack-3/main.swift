@@ -193,6 +193,7 @@ func reset() throws {
     try Market.createTable(database: database)
     try Recipe.createTable(database: database)
     try Event.createTable(database: database)
+    try Recycle.createTable(database: database)
 }
 
 routes.add(method: .get, uri: "/reset", handler: { request, response in
@@ -273,6 +274,7 @@ do {
     routes.add(Market.routes(database: database))
     routes.add(Recipe.routes(database: database))
     routes.add(Event.routes(database: database))
+    routes.add(Recycle.routes(database: database))
 } catch {
     Log("\(error)")
 }
