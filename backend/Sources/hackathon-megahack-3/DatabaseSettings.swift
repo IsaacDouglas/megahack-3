@@ -10,35 +10,18 @@ import PerfectCRUD
 import PerfectMySQL
 
 #if os(Linux)
-let host = "localhost"
+let host = "35.247.229.61"
 #else
 let host = "localhost"
 #endif
 
 let DBName = "megahack3"
 let user = "root"
-let password = "1234"
+let password = "xyNcim2ahJ1xH8c3"
 typealias DBConfiguration = MySQLDatabaseConfiguration
 
 class DatabaseSettings {
     static func getDB(reset: Bool) throws -> Database<DBConfiguration> {
-        if reset {
-            let db = Database(configuration: try DBConfiguration(database: DBName,
-                                                                 host: host,
-                                                                 username: user,
-                                                                 password: password))
-            try db.sql("DROP DATABASE \(DBName)")
-            try db.sql("CREATE DATABASE \(DBName) DEFAULT CHARACTER SET utf8mb4")
-        }
-        return Database(configuration: try DBConfiguration(database: DBName,
-                                                           host: host,
-                                                           username: user,
-                                                           password: password))
-    }
-}
-
-class DatabaseSettingsTeste {
-    static func getDB(reset: Bool, host: String) throws -> Database<DBConfiguration> {
         if reset {
             let db = Database(configuration: try DBConfiguration(database: DBName,
                                                                  host: host,

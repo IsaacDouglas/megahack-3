@@ -1,20 +1,6 @@
 version: '3.7'
 
 services:
-  db:
-    container_name: db
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password
-    volumes:
-      - ./my-db:/var/lib/mysql
-    restart: always
-    ports:
-      - 3306:3306
-    environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: root
-
-
   frontend:
     container_name: frontend
     restart: always
@@ -26,20 +12,14 @@ services:
     links:
       - backend
 
-
   backend:
     container_name: backend
     restart: always
-    depends_on:
-      - db
-    links:
-      - db
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
       - '8181:8080'
-
 
 networks:  
   default: 
