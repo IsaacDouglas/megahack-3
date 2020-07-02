@@ -13,6 +13,7 @@ struct User: Codable {
     var id: Int
     var name: String
     var email: String
+    var cpf: String
     var password: String
     var admin: Bool
     var points: Int
@@ -22,6 +23,7 @@ struct User: Codable {
         self.id = (try? values.decode(Int.self, forKey: .id)) ?? 0
         self.name = try values.decode(String.self, forKey: .name)
         self.email = try values.decode(String.self, forKey: .email)
+        self.cpf = try values.decode(String.self, forKey: .cpf)
         self.password = try values.decode(String.self, forKey: .password)
         self.admin = try values.decode(Bool.self, forKey: .admin)
         self.points = (try? values.decode(Int.self, forKey: .points)) ?? 0
@@ -36,6 +38,7 @@ extension User: ControllerSwiftProtocol {
             id INTEGER AUTO_INCREMENT PRIMARY KEY UNIQUE,
             name VARCHAR(128) NOT NULL,
             email VARCHAR(128) NOT NULL UNIQUE,
+            cpf VARCHAR(20) NOT NULL UNIQUE,
             password CHAR(64) NOT NULL,
             admin BOOLEAN NOT NULL CHECK (admin IN (0,1)),
             points INTEGER NOT NULL
@@ -45,6 +48,11 @@ extension User: ControllerSwiftProtocol {
     
     static func select<T: DatabaseConfigurationProtocol>(database: Database<T>, email: String) throws -> User? {
         let table = database.table(Self.self)
-        return try table.where(\Self.email == email).first()
+        return try table.where(\User.email == email).first()
+    }
+    
+    static func select<T: DatabaseConfigurationProtocol>(database: Database<T>, cpf: String) throws -> User? {
+        let table = database.table(Self.self)
+        return try table.where(\User.cpf == cpf).first()
     }
 }

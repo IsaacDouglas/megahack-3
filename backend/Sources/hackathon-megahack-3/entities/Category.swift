@@ -18,7 +18,7 @@ struct Category: Codable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         self.id = (try? values.decode(Int.self, forKey: .id)) ?? 0
         self.title = try values.decode(String.self, forKey: .title)
-        self.subtitle = try values.decode(String.self, forKey: .subtitle)
+        self.subtitle = try? values.decode(String.self, forKey: .subtitle)
     }
 }
 

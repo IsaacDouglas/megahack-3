@@ -46,6 +46,6 @@ extension UserAuthenticate: ControllerSwiftProtocol {
     
     static func select<T: DatabaseConfigurationProtocol>(database: Database<T>, username: String) throws -> UserAuthenticate? {
         let table = database.table(Self.self)
-        return try table.where(\Self.username == username).first()
+        return try table.where(\UserAuthenticate.username == username).first()
     }
 }

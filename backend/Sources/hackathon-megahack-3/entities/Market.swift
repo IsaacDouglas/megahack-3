@@ -1,44 +1,44 @@
 //
-//  QRCode.swift
+//  Market.swift
 //  hackathon-megahack-3
 //
-//  Created by Isaac Douglas on 30/06/20.
+//  Created by Isaac Douglas on 01/07/20.
 //
 
 import Foundation
 import ControllerSwift
 import PerfectCRUD
 
-struct QRCode: Codable {
+struct Market: Codable {
     var id: Int
-    var uuid: String
-    var title: String
+    var name: String
     var description: String
-    var poits: Int
-    var valid: Bool
+    var image: String?
+    var latitude: Float?
+    var longitude: Float?
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         self.id = (try? values.decode(Int.self, forKey: .id)) ?? 0
-        self.uuid = (try? values.decode(String.self, forKey: .uuid)) ?? UUID().uuidString
-        self.title = try values.decode(String.self, forKey: .title)
+        self.name = try values.decode(String.self, forKey: .name)
         self.description = try values.decode(String.self, forKey: .description)
-        self.poits = try values.decode(Int.self, forKey: .poits)
-        self.valid = try values.decode(Bool.self, forKey: .valid)
+        self.image = try? values.decode(String.self, forKey: .image)
+        self.latitude = try? values.decode(Float.self, forKey: .latitude)
+        self.longitude = try? values.decode(Float.self, forKey: .longitude)
     }
 }
 
-extension QRCode: ControllerSwiftProtocol {
+extension Market: ControllerSwiftProtocol {
     static func createTable<T: DatabaseConfigurationProtocol>(database: Database<T>) throws {
         try database.sql("DROP TABLE IF EXISTS \(Self.CRUDTableName)")
         try database.sql("""
             CREATE TABLE \(Self.CRUDTableName) (
             id INTEGER AUTO_INCREMENT PRIMARY KEY UNIQUE,
-            uuid TEXT NOT NULL,
-            title TEXT NOT NULL,
+            name TEXT NOT NULL,
             description TEXT NOT NULL,
-            poits INTEGER NOT NULL,
-            valid BOOLEAN NOT NULL CHECK (valid IN (0,1))
+            image TEXT,
+            latitude FLOAT,
+            longitude FLOAT
             )
             """)
     }

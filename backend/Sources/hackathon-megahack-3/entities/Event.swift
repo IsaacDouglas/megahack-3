@@ -17,6 +17,7 @@ struct Event: Codable {
     var date: String
     var latitude: Float?
     var longitude: Float?
+    var image: String?
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -27,6 +28,7 @@ struct Event: Codable {
         self.date = try values.decode(String.self, forKey: .date)
         self.latitude = try? values.decode(Float.self, forKey: .latitude)
         self.longitude = try? values.decode(Float.self, forKey: .longitude)
+        self.image = try? values.decode(String.self, forKey: .image)
     }
 }
 
@@ -41,7 +43,8 @@ extension Event: ControllerSwiftProtocol {
             description TEXT NOT NULL,
             date TEXT NOT NULL,
             latitude FLOAT,
-            longitude FLOAT
+            longitude FLOAT,
+            image TEXT
             )
             """)
     }
