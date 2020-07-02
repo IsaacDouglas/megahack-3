@@ -9,7 +9,7 @@ export const RestaurantList = ({permissions, ...props}) => {
     
     return (
         <List
-        title="Restaurantes" 
+        title="Mercados" 
         {...props} >
             {isSmall ? (
                 <SimpleList
@@ -49,7 +49,7 @@ export const RestaurantEdit = props => (
 );
 
 export const RestaurantCreate = props => (
-    <Create title= "Novo restaurante" {...props}>
+    <Create title= "Novo mercado" {...props}>
         <SimpleForm>
             <TextInput source="name" label="Nome" validate={required()}/>
             <TextInput source="description" label="Descrição" validate={required()}/>

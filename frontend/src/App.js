@@ -95,8 +95,8 @@ const App = () => (
     />
     <Resource 
         icon={RestaurantIcon} 
-        options={{ label: 'Restaurantes' }} 
-        name="restaurant"
+        options={{ label: 'Mercados' }} 
+        name="market"
         list={RestaurantList} 
         edit={RestaurantEdit} 
         create={RestaurantCreate} 

@@ -22,6 +22,7 @@ export const UserList = ({permissions, ...props}) => {
                 <Datagrid>
                     <TextField source="id" />
                     <TextField source="name" label="Nome"/>
+                    <TextField source="cpf" label="CPF"/>
                     <EmailField source="email" label="Email"/>
                     <BooleanField source="admin" label="Admin"/>
                     <TextField source="points" label="Pontos"/>
@@ -40,6 +41,7 @@ export const UserEdit = props => (
     <Edit title={<UserTitle />} {...props}>
         <SimpleForm>
             <TextInput source="name" label="Nome" validate={required()}/>
+            <TextInput source="cpf" label="CPF" validate={required()}/>
             <TextInput source="email" label="Email" validate={validateEmail}/>
             <PasswordInput source="password" validate={required()}/>
             <BooleanInput source="admin" label="Admin" validate={required()}/>
@@ -51,6 +53,7 @@ export const UserCreate = props => (
     <Create title= "Novo usuário" {...props}>
         <SimpleForm>
             <TextInput source="name" label="Nome" validate={required()}/>
+            <TextInput source="cpf" label="CPF" validate={required()}/>
             <TextInput source="email" label="Email" validate={validateEmail}/>
             <PasswordInput source="password" validate={required()}/>
             <BooleanInput source="admin" label="Admin" validate={required()}/>

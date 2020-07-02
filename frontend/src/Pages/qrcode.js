@@ -23,7 +23,7 @@ export const QRCodeList = ({permissions, ...props}) => {
                     <TextField source="uuid" label="UUID"/>
                     <TextField source="title" label="Título"/>
                     <TextField source="description" label="Descrição"/>
-                    <TextField source="poits" label="Pontos"/>
+                    <TextField source="points" label="Pontos"/>
                     <BooleanField source="valid" label="Válido"/>
                     <EditButton/>
                 </Datagrid>
@@ -41,7 +41,7 @@ export const QRCodeEdit = props => (
         <SimpleForm>
             <TextInput source="title" label="Título" validate={required()}/>
             <TextInput source="description" label="Descrição" validate={required()}/>
-            <NumberInput source="poits" label="Pontos" validate={required()}/>
+            <NumberInput source="points" label="Pontos" validate={required()}/>
             <BooleanInput source="valid" label="Válido" validate={required()}/>
         </SimpleForm>
     </Edit>
@@ -52,7 +52,7 @@ export const QRCodeCreate = props => (
         <SimpleForm>
             <TextInput source="title" label="Título" validate={required()}/>
             <TextInput source="description" label="Descrição" validate={required()}/>
-            <NumberInput source="poits" label="Pontos" validate={required()}/>
+            <NumberInput source="points" label="Pontos" validate={required()}/>
             <BooleanInput source="valid" label="Válido" validate={required()}/>
         </SimpleForm>
     </Create>
