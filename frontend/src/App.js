@@ -11,6 +11,7 @@ import { QRCodeList, QRCodeEdit, QRCodeCreate } from './Pages/qrcode';
 import { RestaurantList, RestaurantEdit, RestaurantCreate } from './Pages/restaurant';
 import { RecipeList, RecipeEdit, RecipeCreate } from './Pages/recipe';
 import { EventList, EventEdit, EventCreate } from './Pages/event';
+import { RecycleList, RecycleEdit, RecycleCreate } from './Pages/recycle';
 
 import authProvider from './Provider/authProvider';
 import dataProvider from './Provider/dataProvider';
@@ -25,6 +26,7 @@ import AdvertisementIcon from '@material-ui/icons/ViewStream';
 import RestaurantIcon from '@material-ui/icons/Restaurant';
 import RecipeIcon from '@material-ui/icons/Receipt';
 import EventIcon from '@material-ui/icons/Event';
+import RecycleIcon from '@material-ui/icons/Delete';
 
 import ptBrMessages from './language-pt-br';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
@@ -116,6 +118,14 @@ const App = () => (
         list={EventList} 
         edit={EventEdit} 
         create={EventCreate} 
+    />
+    <Resource 
+        icon={RecycleIcon} 
+        options={{ label: 'Pontos de reciclagem' }} 
+        name="recycle"
+        list={RecycleList} 
+        edit={RecycleEdit} 
+        create={RecycleCreate} 
     />
     </Admin>
 );

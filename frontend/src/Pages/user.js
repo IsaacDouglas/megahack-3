@@ -24,6 +24,7 @@ export const UserList = ({permissions, ...props}) => {
                     <TextField source="name" label="Nome"/>
                     <TextField source="cpf" label="CPF"/>
                     <EmailField source="email" label="Email"/>
+                    <TextField source="phone" label="Telefone"/>
                     <BooleanField source="admin" label="Admin"/>
                     <TextField source="points" label="Pontos"/>
                     <UrlField source="image" label="Imagem"/>
@@ -44,6 +45,7 @@ export const UserEdit = props => (
             <TextInput source="name" label="Nome" validate={required()}/>
             <TextInput source="cpf" label="CPF" validate={required()}/>
             <TextInput source="email" label="Email" validate={validateEmail}/>
+            <TextInput source="phone" label="Telefone"/>
             <TextInput source="image" label="Imagem"/>
             <PasswordInput source="password" validate={required()}/>
             <BooleanInput source="admin" label="Admin" validate={required()}/>
@@ -57,6 +59,7 @@ export const UserCreate = props => (
             <TextInput source="name" label="Nome" validate={required()}/>
             <TextInput source="cpf" label="CPF" validate={required()}/>
             <TextInput source="email" label="Email" validate={validateEmail}/>
+            <TextInput source="phone" label="Telefone"/>
             <TextInput source="image" label="Imagem"/>
             <PasswordInput source="password" validate={required()}/>
             <BooleanInput source="admin" label="Admin" validate={required()}/>
