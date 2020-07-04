@@ -12,6 +12,7 @@ import { RestaurantList, RestaurantEdit, RestaurantCreate } from './Pages/restau
 import { RecipeList, RecipeEdit, RecipeCreate } from './Pages/recipe';
 import { EventList, EventEdit, EventCreate } from './Pages/event';
 import { RecycleList, RecycleEdit, RecycleCreate } from './Pages/recycle';
+import { CardList, CardEdit, CardCreate } from './Pages/card';
 
 import Dashboard from './Pages/dashboard';
 
@@ -29,6 +30,7 @@ import RestaurantIcon from '@material-ui/icons/Restaurant';
 import RecipeIcon from '@material-ui/icons/Receipt';
 import EventIcon from '@material-ui/icons/Event';
 import RecycleIcon from '@material-ui/icons/Delete';
+import CardIcon from '@material-ui/icons/CreditCard';
 
 import ptBrMessages from './language-pt-br';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
@@ -49,6 +51,14 @@ const App = () => (
         list={UserList} 
         edit={UserEdit} 
         create={UserCreate} 
+    />
+    <Resource 
+        icon={CardIcon} 
+        options={{ label: 'Cartões' }} 
+        name="card" 
+        list={CardList} 
+        edit={CardEdit} 
+        create={CardCreate} 
     />
     <Resource 
         icon={GoalIcon} 

@@ -8,8 +8,9 @@
 import Foundation
 import ControllerSwift
 import PerfectCRUD
+import PerfectHTTP
 
-struct User: Codable {
+final class User: Codable {
     var id: Int
     var name: String
     var email: String
@@ -19,6 +20,7 @@ struct User: Codable {
     var points: Int
     var image: String?
     var phone: String?
+    var cards: [Card]?
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -60,5 +62,46 @@ extension User: ControllerSwiftProtocol {
     static func select<T: DatabaseConfigurationProtocol>(database: Database<T>, cpf: String) throws -> User? {
         let table = database.table(Self.self)
         return try table.where(\User.cpf == cpf).first()
+    }
+    
+    static func getOne<T: DatabaseConfigurationProtocol>(database: Database<T>, request: HTTPRequest, response: HTTPResponse, id: Int) throws -> User? {
+        let table = database.table(User.self)
+        let user = try table.where(\User.id == id).first()
+        let tableCards = database.table(Card.self)
+        let cards = try tableCards.where(\Card.user_id == id).select().map({ $0 })
+        user?.cards = cards
+        return user
+    }
+    
+    static func getList<T: DatabaseConfigurationProtocol>(database: Database<T>, request: HTTPRequest, response: HTTPResponse, sort: Sort?, range: Range?, filter: [String: Any]?) throws -> ([User], Int) {
+        let count = try database.table(User.self).count()
+        
+        var list = [String]()
+        
+        if let filter = filter {
+            if let ids = filter["ids"] as? [Int] {
+                let joined = ids.map({ "\($0)" }).joined(separator: ", ")
+                list.append("WHERE id IN (\(joined))")
+            }
+        }
+        
+        if let sort = sort {
+            list.append("ORDER BY \(sort.field) \(sort.order.rawValue)")
+        }
+        
+        if let range = range {
+            list.append("LIMIT \(range.limit) OFFSET \(range.offset)")
+        }
+        
+        let select = try database.sql("SELECT * FROM \(User.CRUDTableName) \(list.joined(separator: " "))", User.self)
+        let tableCards = database.table(Card.self)
+        
+        try database.transaction {
+            for user in select {
+                let cards = try tableCards.where(\Card.user_id == user.id).select().map({ $0 })
+                user.cards = cards
+            }
+        }
+        return (select, count)
     }
 }

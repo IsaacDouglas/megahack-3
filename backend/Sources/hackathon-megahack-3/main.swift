@@ -47,7 +47,7 @@ routes.add(method: .get, uri: "/recycling/{uuid}", handler: { request, response 
                 let points = qrcode.points
                 
                 if qrcode.valid {
-                    if var user = try User.getOne(database: database, request: request, response: response, id: id) {
+                    if let user = try User.getOne(database: database, request: request, response: response, id: id) {
                         user.points += points
                         let _ = try User.update(database: database, request: request, response: response, record: user)
                         
@@ -120,7 +120,7 @@ routes.add(method: .post, uri: "/buy", handler: { request, response in
                     return points * product.amount
                 }).reduce(0, +)
             
-            if var user = try User.select(database: database, cpf: buy.user_cpf) {
+            if let user = try User.select(database: database, cpf: buy.user_cpf) {
                 user.points += points
                 let _ = try User.update(database: database, request: request, response: response, record: user)
             } else {
@@ -194,6 +194,7 @@ func reset() throws {
     try Recipe.createTable(database: database)
     try Event.createTable(database: database)
     try Recycle.createTable(database: database)
+    try Card.createTable(database: database)
 }
 
 routes.add(method: .get, uri: "/reset", handler: { request, response in
@@ -275,6 +276,7 @@ do {
     routes.add(Recipe.routes(database: database))
     routes.add(Event.routes(database: database))
     routes.add(Recycle.routes(database: database))
+    routes.add(Card.routes(database: database))
 } catch {
     Log("\(error)")
 }
