@@ -13,6 +13,8 @@ import { RecipeList, RecipeEdit, RecipeCreate } from './Pages/recipe';
 import { EventList, EventEdit, EventCreate } from './Pages/event';
 import { RecycleList, RecycleEdit, RecycleCreate } from './Pages/recycle';
 
+import Dashboard from './Pages/dashboard';
+
 import authProvider from './Provider/authProvider';
 import dataProvider from './Provider/dataProvider';
 
@@ -35,6 +37,7 @@ const i18nProvider = polyglotI18nProvider(() => ptBrMessages);
 
 const App = () => (
     <Admin 
+        dashboard={Dashboard} 
         authProvider={authProvider} 
         dataProvider={dataProvider} 
         i18nProvider={i18nProvider}

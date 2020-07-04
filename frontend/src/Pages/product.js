@@ -27,8 +27,8 @@ export const ProductList = ({permissions, ...props}) => {
                     <TextField source="barcode" label="Código de barros"/>
                     <TextField source="description" label="Descrição"/>
                     <TextField source="price" label="Preço"/>
-                    <TextField source="abv" label="ABV"/>
-                    <TextField source="family" label="Família"/>
+                    <TextField source="abv" />
+                    <TextField source="family" />
                     <UrlField source="image" label="Image"/>
                     <TextField source="points" label="Pontos"/>
                     <TextField source="ingredients_details" label="Ingredientes"/>
@@ -54,8 +54,8 @@ export const ProductEdit = props => (
             <TextInput source="name" label="Nome" validate={required()}/>
             <TextInput source="barcode" label="Código de barros" validate={required()}/>
             <TextInput source="description" label="Descrição" validate={required()}/>
-            <TextInput source="abv" label="ABV" validate={required()}/>
-            <TextInput source="family" label="Família" validate={required()}/>
+            <TextInput source="abv" label="ABV" />
+            <TextInput source="family" label="Família" />
             <TextInput source="price" label="Preço" validate={required()}/>
             <TextInput source="image" label="Imagem"/>
             <NumberInput source="points" label="Pontos" validate={required()}/>

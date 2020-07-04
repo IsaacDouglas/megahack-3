@@ -21,7 +21,7 @@ export const GoalList = ({permissions, ...props}) => {
                     <TextField source="id" />
                     <TextField source="title" label="Título"/>
                     <TextField source="description" label="Descrição"/>
-                    <TextField source="minimum_points" label="Mínimo de pontos"/>
+                    <TextField source="minimum_points" label="Recompensa"/>
                     <EditButton/>
                 </Datagrid>
             )}
@@ -38,7 +38,7 @@ export const GoalEdit = props => (
         <SimpleForm >
             <TextInput source="title" label="Título" validate={required()}/>
             <TextInput source="description" label="Descrição" validate={required()}/>
-            <NumberInput source="minimum_points" label="Mínimo de pontos" />
+            <NumberInput source="minimum_points" label="Recompensa" validate={required()}/>
         </SimpleForm>
     </Edit>
 );
@@ -48,7 +48,7 @@ export const GoalCreate = props => (
         <SimpleForm>
         <TextInput source="title" label="Título" validate={required()}/>
             <TextInput source="description" label="Descrição" validate={required()}/>
-            <NumberInput source="minimum_points" label="Mínimo de pontos" validate={required()}/>
+            <NumberInput source="minimum_points" label="Recompensa" validate={required()}/>
         </SimpleForm>
     </Create>
 );

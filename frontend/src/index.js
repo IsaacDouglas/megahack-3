@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { Connector } from 'mqtt-react';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Connector mqttProps="mqtt://test.mosquitto.org:8080">
+      <App />
+    </Connector>
   </React.StrictMode>,
   document.getElementById('root')
 );
