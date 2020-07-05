@@ -10,6 +10,7 @@ import PerfectSession
 let server = HTTPServer()
 server.serverPort = 8080
 
+// MARK: - Configuração do CORS
 SessionConfig.CORS.enabled = true
 SessionConfig.CORS.maxAge = 86400
 SessionConfig.CORS.acceptableHostnames = ["*"]
@@ -27,6 +28,7 @@ routes.add(method: .get, uri: "/", handler: { request, response in
     response.setBody(string: "Hello world!").completed()
 })
 
+// MARK: - Endpoit para o fluxo de somar os pontos de um qrcode gerado pela lixeira
 routes.add(method: .get, uri: "/recycling/{uuid}", handler: { request, response in
     guard
         let uuid = request.urlVariables["uuid"],
@@ -51,8 +53,9 @@ routes.add(method: .get, uri: "/recycling/{uuid}", handler: { request, response 
                         user.points += points
                         let _ = try User.update(database: database, request: request, response: response, record: user)
                         
-                        qrcode.valid = false
-                        let _ = try QRCode.update(database: database, request: request, response: response, record: qrcode)
+                        // Comentado para deixar os QRCodes gerados validos sempre
+                        // qrcode.valid = false
+                        // let _ = try QRCode.update(database: database, request: request, response: response, record: qrcode)
                     } else {
                         response
                             .setBody(string: "usuário não encontrado")
@@ -83,17 +86,7 @@ routes.add(method: .get, uri: "/recycling/{uuid}", handler: { request, response 
         .completed()
 })
 
-struct ProductsBuy: Codable {
-    var barcode: String
-    var amount: Int
-}
-
-struct Buy: Codable {
-    var market_id: Int
-    var products: [ProductsBuy]
-    var user_cpf: String
-}
-
+// MARK: - Endpoit para o fluxo de comprar e receber os pontos do supermercado
 routes.add(method: .post, uri: "/buy", handler: { request, response in
     guard let buy = request.getBodyJSON(Buy.self) else {
         response
@@ -141,6 +134,7 @@ routes.add(method: .post, uri: "/buy", handler: { request, response in
         .completed()
 })
 
+// MARK: - Endpoit para o fluxo de gerar um qrcode pela lixeira
 routes.add(method: .get, uri: "/recycling", handler: { request, response in
     do {
         let database = try DatabaseSettings.getDB(reset: false)
@@ -156,7 +150,7 @@ routes.add(method: .get, uri: "/recycling", handler: { request, response in
         }
         
         let uuid = UUID().uuidString
-        let points = countInt * 100
+        let points = countInt * 5
         
         let qrcode = QRCode(id: 0,
                             uuid: uuid,
@@ -179,6 +173,7 @@ routes.add(method: .get, uri: "/recycling", handler: { request, response in
     }
 })
 
+// MARK: - Endpoit para o fluxo de resetar o banco
 func reset() throws {
     let database = try DatabaseSettings.getDB(reset: true)
     try User.createTable(database: database)
@@ -207,6 +202,7 @@ routes.add(method: .get, uri: "/reset", handler: { request, response in
     response.completed()
 })
 
+// MARK: - Endpoit para o fluxo de autenticação
 routes.add(method: .options, uri: "/authenticate", handler: { request, response in
     response.completed()
 })
