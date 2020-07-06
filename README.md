@@ -4,6 +4,13 @@
 
 1. Projeto frontend feito com React usando o React Admin
     - [Link](http://35.215.197.50:3000/)
+
+    - Conta de teste para acesso ao frontend
+    ``` 
+        usuário: admin
+        senha: admin
+    ```
+        
 2. Projeto backend feito com Swift usando o framework Perfect
     - [Link](http://35.215.197.50:8181/)
 
