@@ -8,6 +8,7 @@
 import Foundation
 import PerfectCRUD
 import PerfectMySQL
+import ControllerSwift
 
 #if os(Linux)
 let host = "35.247.229.61"
@@ -19,21 +20,23 @@ let password = "1234"
 
 let DBName = "megahack3"
 let user = "root"
-typealias DBConfiguration = MySQLDatabaseConfiguration
 
-class DatabaseSettings {
-    static func getDB(reset: Bool) throws -> Database<DBConfiguration> {
+final class DatabaseSettings: CSDatabaseProtocol {
+    typealias T = MySQLDatabaseConfiguration
+    
+    func getDB(reset: Bool) throws -> Database<T> {
         if reset {
-            let db = Database(configuration: try DBConfiguration(database: DBName,
-                                                                 host: host,
-                                                                 username: user,
-                                                                 password: password))
+            let db = Database(configuration: try T(database: DBName,
+                                                   host: host,
+                                                   username: user,
+                                                   password: password))
+            
             try db.sql("DROP DATABASE \(DBName)")
             try db.sql("CREATE DATABASE \(DBName) DEFAULT CHARACTER SET utf8mb4")
         }
-        return Database(configuration: try DBConfiguration(database: DBName,
-                                                           host: host,
-                                                           username: user,
-                                                           password: password))
+        return Database(configuration: try T(database: DBName,
+                                             host: host,
+                                             username: user,
+                                             password: password))
     }
 }

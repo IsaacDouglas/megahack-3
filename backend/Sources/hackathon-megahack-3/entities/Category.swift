@@ -45,7 +45,7 @@ extension Category: ControllerSwiftProtocol {
         return category
     }
     
-    static func getList<T: DatabaseConfigurationProtocol>(database: Database<T>, request: HTTPRequest, response: HTTPResponse, sort: Sort?, range: Range?, filter: [String: Any]?) throws -> ([Category], Int) {
+    static func getList<T: DatabaseConfigurationProtocol>(database: Database<T>, request: HTTPRequest, response: HTTPResponse, sort: CSSort?, range: CSRange?, filter: [String: Any]?) throws -> ([Category], Int) {
         let count = try database.table(Category.self).count()
         
         var list = [String]()

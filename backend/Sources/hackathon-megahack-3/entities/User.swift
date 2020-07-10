@@ -73,7 +73,7 @@ extension User: ControllerSwiftProtocol {
         return user
     }
     
-    static func getList<T: DatabaseConfigurationProtocol>(database: Database<T>, request: HTTPRequest, response: HTTPResponse, sort: Sort?, range: Range?, filter: [String: Any]?) throws -> ([User], Int) {
+    static func getList<T: DatabaseConfigurationProtocol>(database: Database<T>, request: HTTPRequest, response: HTTPResponse, sort: CSSort?, range: CSRange?, filter: [String: Any]?) throws -> ([User], Int) {
         let count = try database.table(User.self).count()
         
         var list = [String]()

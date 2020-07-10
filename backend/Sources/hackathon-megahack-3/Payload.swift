@@ -8,13 +8,13 @@
 import Foundation
 import ControllerSwift
 
-struct Payload: PayloadProtocol {
+struct Payload: CSPayloadProtocol {
     public var sub: Int
     public var exp: CLong
     public var iat: CLong
     
     func reload() -> Payload {
-        let exp = self.exp + TimeIntervalType.hour(999).totalSeconds
+        let exp = self.exp + CSTimeIntervalType.hour(999).totalSeconds
         return .init(sub: self.sub, exp: exp, iat: self.iat)
     }
 }

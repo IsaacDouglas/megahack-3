@@ -42,9 +42,9 @@ routes.add(method: .get, uri: "/recycling/{uuid}", handler: { request, response 
     }
     
     do {
-        let database = try DatabaseSettings.getDB(reset: false)
+        let database = try DatabaseSettings().getDB(reset: false)
         
-        try database.transaction({
+        try database.transaction ({
             if let qrcode = try QRCode.select(database: database, uuid: uuid) {
                 let points = qrcode.points
                 
@@ -68,7 +68,7 @@ routes.add(method: .get, uri: "/recycling/{uuid}", handler: { request, response 
                         .completed(status: .badRequest)
                     return
                 }
-            }else{
+            } else {
                 response
                     .setBody(string: "qrcode não encontrado")
                     .completed(status: .badRequest)
@@ -76,7 +76,7 @@ routes.add(method: .get, uri: "/recycling/{uuid}", handler: { request, response 
             }
         })
     } catch {
-        Log("\(error)")
+        CSLog("\(error)")
         response
             .setBody(string: "error")
             .completed(status: .internalServerError)
@@ -96,7 +96,7 @@ routes.add(method: .post, uri: "/buy", handler: { request, response in
     }
     
     do {
-        let database = try DatabaseSettings.getDB(reset: false)
+        let database = try DatabaseSettings().getDB(reset: false)
         
         try database.transaction {
             let barcodes = buy.products.map({ $0.barcode })
@@ -124,7 +124,7 @@ routes.add(method: .post, uri: "/buy", handler: { request, response in
             }
         }
     } catch {
-        Log("\(error)")
+        CSLog("\(error)")
         response
             .setBody(string: "error")
             .completed(status: .internalServerError)
@@ -137,7 +137,7 @@ routes.add(method: .post, uri: "/buy", handler: { request, response in
 // MARK: - Endpoit para o fluxo de gerar um qrcode pela lixeira
 routes.add(method: .get, uri: "/recycling", handler: { request, response in
     do {
-        let database = try DatabaseSettings.getDB(reset: false)
+        let database = try DatabaseSettings().getDB(reset: false)
         
         guard
             let count = request.param(name: "count"),
@@ -166,7 +166,7 @@ routes.add(method: .get, uri: "/recycling", handler: { request, response in
             .appendBody(string: tag)
             .completed()
     } catch {
-        Log("\(error)")
+        CSLog("\(error)")
         response
             .setBody(string: "error")
             .completed(status: .internalServerError)
@@ -175,7 +175,7 @@ routes.add(method: .get, uri: "/recycling", handler: { request, response in
 
 // MARK: - Endpoit para o fluxo de resetar o banco
 func reset() throws {
-    let database = try DatabaseSettings.getDB(reset: true)
+    let database = try DatabaseSettings().getDB(reset: true)
     try User.createTable(database: database)
     try UserAuthenticate.createTable(database: database)
     try Goal.createTable(database: database)
@@ -196,7 +196,7 @@ routes.add(method: .get, uri: "/reset", handler: { request, response in
     do {
         try reset()
     } catch {
-        Log("\(error)")
+        CSLog("\(error)")
         response.completed(status: .internalServerError)
     }
     response.completed()
@@ -215,25 +215,25 @@ routes.add(method: .post, uri: "/authenticate", handler: { request, response in
     
     if authenticate.username == "admin" && authenticate.password == "admin" {
         let timeInterval = Date.timeInterval
-        let exp = timeInterval + TimeIntervalType.hour(999).totalSeconds
+        let exp = timeInterval + CSTimeIntervalType.hour(999).totalSeconds
         let payload = Payload(sub: 0, exp: exp, iat: timeInterval)
         
         do {
-            let token = try Token(payload: payload)
+            let token = try CSToken(payload: payload)
             
             try response
                 .setBody(json: token)
                 .addHeader(.contentType, value: "application/json")
                 .completed(status: .ok)
         } catch {
-            Log("\(error)")
+            CSLog("\(error)")
             response.completed(status: .internalServerError)
         }
         return
     }
     
     do {
-        let database = try DatabaseSettings.getDB(reset: false)
+        let database = try DatabaseSettings().getDB(reset: false)
         guard
             let userAuth = try User.select(database: database, email: authenticate.username),
             userAuth.password == authenticate.password
@@ -243,46 +243,41 @@ routes.add(method: .post, uri: "/authenticate", handler: { request, response in
         }
         
         let timeInterval = Date.timeInterval
-        let exp = timeInterval + TimeIntervalType.hour(999).totalSeconds
+        let exp = timeInterval + CSTimeIntervalType.hour(999).totalSeconds
         let payload = Payload(sub: userAuth.id, exp: exp, iat: timeInterval)
-        let token = try Token(payload: payload)
+        let token = try CSToken(payload: payload)
         
         try response
             .setBody(json: token)
             .addHeader(.contentType, value: "application/json")
             .completed(status: .ok)
     } catch {
-        Log("\(error)")
+        CSLog("\(error)")
         response.completed(status: .internalServerError)
     }
 })
 
 // MARK: - ControllerSwift
-do {
-    let database = try DatabaseSettings.getDB(reset: false)
-    routes.add(User.routes(database: database))
-    routes.add(Goal.routes(database: database))
-    routes.add(Address.routes(database: database))
-    routes.add(Category.routes(database: database))
-    routes.add(Product.routes(database: database))
-    routes.add(ProductImage.routes(database: database))
-    routes.add(Advertisement.routes(database: database))
-    routes.add(QRCode.routes(database: database))
-    routes.add(Market.routes(database: database))
-    routes.add(Recipe.routes(database: database))
-    routes.add(Event.routes(database: database))
-    routes.add(Recycle.routes(database: database))
-    routes.add(Card.routes(database: database))
-} catch {
-    Log("\(error)")
-}
+routes.add(User.routes(databaseType: DatabaseSettings.self))
+routes.add(Goal.routes(databaseType: DatabaseSettings.self))
+routes.add(Address.routes(databaseType: DatabaseSettings.self))
+routes.add(Category.routes(databaseType: DatabaseSettings.self))
+routes.add(Product.routes(databaseType: DatabaseSettings.self))
+routes.add(ProductImage.routes(databaseType: DatabaseSettings.self))
+routes.add(Advertisement.routes(databaseType: DatabaseSettings.self))
+routes.add(QRCode.routes(databaseType: DatabaseSettings.self))
+routes.add(Market.routes(databaseType: DatabaseSettings.self))
+routes.add(Recipe.routes(databaseType: DatabaseSettings.self))
+routes.add(Event.routes(databaseType: DatabaseSettings.self))
+routes.add(Recycle.routes(databaseType: DatabaseSettings.self))
+routes.add(Card.routes(databaseType: DatabaseSettings.self))
 
 server.addRoutes(routes)
 
 // MARK: - Start server
 do {
-    Log("[INFO] Starting HTTP server on \(server.serverAddress):\(server.serverPort)")
+    CSLog("[INFO] Starting HTTP server on \(server.serverAddress):\(server.serverPort)")
     try server.start()
 } catch PerfectError.networkError(let err, let msg){
-    Log("Network error thrown: \(err) \(msg)")
+    CSLog("Network error thrown: \(err) \(msg)")
 }
